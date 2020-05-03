@@ -9,13 +9,13 @@
         <!--Your ToDo List-->
         <scene sceneID="Hvj-pN-CpO">
             <objects>
-                <tableViewController id="jsO-ZX-r6m" sceneMemberID="viewController">
+                <tableViewController id="jsO-ZX-r6m" customClass="TableViewController" customModule="ToDoList2020" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EDV-Jc-Yb6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="5Tj-J2-Feb">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="5Tj-J2-Feb">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Tj-J2-Feb" id="sm5-K4-goR">
@@ -29,7 +29,9 @@
                             <outlet property="delegate" destination="jsO-ZX-r6m" id="w0J-Aa-Qkq"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Your ToDo List" id="SnP-RU-gp1"/>
+                    <navigationItem key="navigationItem" title="Your ToDo List" id="SnP-RU-gp1">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="N08-4x-3YX"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uyc-rj-vU4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
