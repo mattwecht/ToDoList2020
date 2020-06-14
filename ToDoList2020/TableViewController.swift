@@ -9,33 +9,38 @@
 import UIKit
 
 class TableViewController: UITableViewController {
-    var toDos : [ToDo] = [] // create an empty array of type ToDo
+    var toDos : [ToDoCD] = [] // create an empty array of type ToDoCD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        toDos = createToDo() // when the view loads it will create an array with the results of the createToDos function
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        getToDos()//reads core data
     }
 
     // MARK: - Table view data source
     
-    func createToDo() -> [ToDo] {
+    func getToDos() {
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+            if let coreDataToDos = try? context.fetch(ToDoCD.fetchRequest()) as? [ToDoCD] {
+                    toDos = coreDataToDos
+                    tableView.reloadData()
+        }
         
-        let cake = ToDo()
-        cake.name = "Eat some cake"
-        cake.important = true
-
-        let dog = ToDo()
-        dog.name = "Get another dog"
-      // important is set to false by default
-
-        return [cake, dog]
-    }
+        }}
+    
+//    func createToDo() -> [ToDo] {
+//
+//        let cake = ToDo()
+//        cake.name = "Eat some cake"
+//        cake.important = true
+//
+//        let dog = ToDo()
+//        dog.name = "Get another dog"
+//      // important is set to false by default
+//
+//        return [cake, dog]
+//    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -51,12 +56,13 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
         let toDo = toDos[indexPath.row]
-        if toDo.important {
-            cell.textLabel?.text = "⚠" + toDo.name
-        }else{
-            cell.textLabel?.text = toDo.name
+        if let name = toDo.name {
+          if toDo.important {
+              cell.textLabel?.text = "❗️" + name
+          } else {
+              cell.textLabel?.text = toDo.name
+          }
         }
-        // Configure the cell...
 
         return cell
     }
@@ -67,40 +73,6 @@ class TableViewController: UITableViewController {
         performSegue(withIdentifier: "moveToComplete", sender: toDo)
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       if let addVC = segue.destination as? AddToDoViewController {
@@ -108,7 +80,7 @@ class TableViewController: UITableViewController {
       }
         
         if let completeVC = segue.destination as? CompleteToDoViewController{
-            if let toDo = sender as? ToDo{
+            if let toDo = sender as? ToDoCD{
                 completeVC.selectedToDo = toDo
                 completeVC.previousVC = self
             }
